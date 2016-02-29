@@ -46,6 +46,11 @@ class JavaPoetType(val modifiers : Set<Modifier>,
 class JavaPoetConstructor(val modifiers : Set<Modifier>,
                           val parameters : Set<JavaPoetValue>) {
   val methodSpecBuilder : MethodSpec.Builder
+  var javaDoc : String? = null
+    set(value) {
+      field == value
+      methodSpecBuilder.addJavadoc(value)
+    }
 
   init {
     methodSpecBuilder = MethodSpec.constructorBuilder().addModifiers(modifiers)
@@ -164,6 +169,7 @@ fun main(args : Array<String>) {
     constructor(setOf(PUBLIC)) //no init block gives default empty constructor
 
     constructor(setOf(PUBLIC), setOf(JavaPoetValue(setOf(FINAL), BOOLEAN, "isPrivate"))) {
+      javaDoc = "constructor that takes a parameter and sets the corresponding field\n"
       statement("this.isPrivate = isPrivate")
     }
 
@@ -178,6 +184,30 @@ fun main(args : Array<String>) {
         }
         next("else") {
           statement("return 2")
+        }
+        end()
+      }
+    }
+
+    method(setOf(PUBLIC), BOOLEAN, "complexControlFlow", setOf(JavaPoetValue(setOf(FINAL), INT, "in"))){
+      javaDoc = "This method shows arbitrary complex control flow\n"
+      controlFlow {
+        begin("if(in > 0)"){
+          controlFlow {
+            begin("if(in < 5)"){
+              statement("return true")
+            }
+            next("else if (in < 7)") {
+              statement("return false")
+            }
+            next("else if (in < 10)"){
+              statement("return true")
+            }
+            end()
+          }
+        }
+        next("else"){
+          statement("return false")
         }
         end()
       }
