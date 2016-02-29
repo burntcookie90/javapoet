@@ -11,6 +11,7 @@ class JavaPoetType(val modifiers : Set<Modifier>,
   val constructors = arrayListOf<JavaPoetConstructor>()
   val methods = arrayListOf<JavaPoetMethod>()
   val fields = arrayListOf<JavaPoetValue>()
+  var javaDoc : String? = null
 
   fun field(modifiers : Set<Modifier> = setOf(DEFAULT),
             type : TypeName,
@@ -18,7 +19,7 @@ class JavaPoetType(val modifiers : Set<Modifier>,
             value : Any? = null,
             init : JavaPoetValue.() -> Unit = {}) {
 
-    val jPValue= JavaPoetValue(modifiers, type, name, value)
+    val jPValue = JavaPoetValue(modifiers, type, name, value)
     jPValue.init()
     fields.add(jPValue)
   }
@@ -59,7 +60,7 @@ class JavaPoetConstructor(val modifiers : Set<Modifier>,
     }
   }
 
-  fun statement(statement : String){
+  fun statement(statement : String) {
     methodSpecBuilder.addStatement(statement)
   }
 
@@ -138,28 +139,21 @@ inline fun classType(modifiers : Set<Modifier> = setOf(DEFAULT),
 
   val typeSpecBuilder = TypeSpec.classBuilder(name).addModifiers(*modifiers.toTypedArray())
 
+  type.javaDoc?.let { typeSpecBuilder.addJavadoc(it) }
   type.fields.forEach {
     val builder = FieldSpec.builder(it.type, it.name, *it.modifiers.toTypedArray())
-    it.value?.let {
-      builder.initializer("\$L", it)
-    }
-    it.javaDoc?.let {
-      builder.addJavadoc(it)
-    }
+    it.value?.let { builder.initializer("\$L", it) }
+    it.javaDoc?.let { builder.addJavadoc(it) }
     typeSpecBuilder.addField(builder.build())
   }
-
-  type.constructors.forEach {
-    typeSpecBuilder.addMethod(it.methodSpecBuilder.build())
-  }
-
+  type.constructors.forEach { typeSpecBuilder.addMethod(it.methodSpecBuilder.build()) }
   type.methods.forEach { typeSpecBuilder.addMethod(it.methodSpecBuilder.build()) }
-
   return typeSpecBuilder.build()
 }
 
 fun main(args : Array<String>) {
   println(classType(setOf(PUBLIC), "TestDsl") {
+    javaDoc = "This is a test class for the kotlin javapoet DSL\n"
 
     field(setOf(PROTECTED, FINAL), BOOLEAN, "isProtected", true) {
       javaDoc = "this is a protected final field\n"
@@ -189,24 +183,24 @@ fun main(args : Array<String>) {
       }
     }
 
-    method(setOf(PUBLIC), BOOLEAN, "complexControlFlow", setOf(JavaPoetValue(setOf(FINAL), INT, "in"))){
+    method(setOf(PUBLIC), BOOLEAN, "complexControlFlow", setOf(JavaPoetValue(setOf(FINAL), INT, "in"))) {
       javaDoc = "This method shows arbitrary complex control flow\n"
       controlFlow {
-        begin("if(in > 0)"){
+        begin("if(in > 0)") {
           controlFlow {
-            begin("if(in < 5)"){
+            begin("if(in < 5)") {
               statement("return true")
             }
             next("else if (in < 7)") {
               statement("return false")
             }
-            next("else if (in < 10)"){
+            next("else if (in < 10)") {
               statement("return true")
             }
             end()
           }
         }
-        next("else"){
+        next("else") {
           statement("return false")
         }
         end()
