@@ -1,4 +1,4 @@
-package org.squareup.javapoet.kotlin.dsl
+package org.squareup.javapoet.kotlin.dsl.model
 
 import com.squareup.javapoet.MethodSpec
 import com.squareup.javapoet.ParameterSpec

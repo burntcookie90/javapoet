@@ -3,6 +3,8 @@ package org.squareup.javapoet.kotlin.dsl
 import com.squareup.javapoet.*
 import com.squareup.javapoet.TypeName.BOOLEAN
 import com.squareup.javapoet.TypeName.INT
+import org.squareup.javapoet.kotlin.dsl.model.JavaPoetType
+import org.squareup.javapoet.kotlin.dsl.model.JavaPoetValue
 import javax.lang.model.element.Modifier
 import javax.lang.model.element.Modifier.*
 

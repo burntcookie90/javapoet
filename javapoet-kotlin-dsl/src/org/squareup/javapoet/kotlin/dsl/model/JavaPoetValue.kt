@@ -1,4 +1,4 @@
-package org.squareup.javapoet.kotlin.dsl
+package org.squareup.javapoet.kotlin.dsl.model
 
 import com.squareup.javapoet.TypeName
 import javax.lang.model.element.Modifier
