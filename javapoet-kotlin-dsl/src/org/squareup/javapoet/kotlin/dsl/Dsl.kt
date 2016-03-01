@@ -8,6 +8,10 @@ import java.util.*
 import javax.lang.model.element.Modifier
 import javax.lang.model.element.Modifier.DEFAULT
 
+inline fun classType(modifier : Modifier = DEFAULT,
+                     name : String,
+                     init : JavaPoetType.() -> Unit)
+        = classType(setOf(modifier), name, init)
 inline fun classType(modifiers : Set<Modifier> = setOf(DEFAULT),
                      name : String,
                      init : JavaPoetType.() -> Unit) : TypeSpec {

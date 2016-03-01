@@ -1,6 +1,5 @@
 package org.squareup.javapoet.kotlin.dsl
 
-import com.squareup.javapoet.ClassName
 import com.squareup.javapoet.JavaFile
 import com.squareup.javapoet.TypeName.*
 import org.squareup.javapoet.kotlin.dsl.model.JavaPoetValue
@@ -9,7 +8,7 @@ import javax.lang.model.element.Modifier.*
 
 fun main(args : Array<String>) {
 
-  JavaFile.builder("com.example", classType(setOf(PUBLIC), "TestDsl") {
+  JavaFile.builder("com.example", classType(PUBLIC, "TestDsl") {
     javaDoc = "This is a test class for the kotlin javapoet DSL\n"
 
     field(setOf(PROTECTED, FINAL), BOOLEAN, "isProtected", true) {
