@@ -15,6 +15,7 @@ fun main(args : Array<String>) {
     field(setOf(PROTECTED, FINAL), BOOLEAN, "isProtected", true) {
       javaDoc = "this is a protected final field\n"
     }
+
     field(PRIVATE, BOOLEAN, "isPrivate")
 
     constructor(PUBLIC) //no init block gives default empty constructor

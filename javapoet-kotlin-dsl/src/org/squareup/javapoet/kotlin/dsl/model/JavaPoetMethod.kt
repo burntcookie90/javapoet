@@ -33,8 +33,9 @@ class JavaPoetMethod(val name : String,
     methodSpecBuilder.addStatement(format, *args)
   }
 
-  fun controlFlow(init : JavaPoetControlFlow.() -> Unit) {
+  fun controlFlow(init : JavaPoetControlFlow.() -> Unit) : JavaPoetControlFlow {
     val controlFlow = JavaPoetControlFlow(methodSpecBuilder)
     controlFlow.init()
+    return controlFlow
   }
 }
