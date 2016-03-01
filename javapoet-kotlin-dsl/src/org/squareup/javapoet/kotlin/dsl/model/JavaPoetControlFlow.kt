@@ -8,6 +8,10 @@ class JavaPoetControlFlow(val methodSpecBuilder : MethodSpec.Builder) {
     methodSpecBuilder.addStatement(statement)
   }
 
+  fun statement(format : String, vararg args : Any){
+    methodSpecBuilder.addStatement(format, *args)
+  }
+
   fun begin(condition : String, init : JavaPoetControlFlow.() -> Unit) {
     methodSpecBuilder.beginControlFlow(condition)
     val controlFlow = JavaPoetControlFlow(methodSpecBuilder)

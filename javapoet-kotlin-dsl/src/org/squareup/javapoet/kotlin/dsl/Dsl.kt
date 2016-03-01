@@ -1,8 +1,10 @@
 package org.squareup.javapoet.kotlin.dsl
 
+import com.squareup.javapoet.ClassName
 import com.squareup.javapoet.FieldSpec
 import com.squareup.javapoet.TypeSpec
 import org.squareup.javapoet.kotlin.dsl.model.JavaPoetType
+import java.util.*
 import javax.lang.model.element.Modifier
 import javax.lang.model.element.Modifier.DEFAULT
 

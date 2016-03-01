@@ -24,4 +24,8 @@ class JavaPoetConstructor(val modifiers : Set<Modifier>,
     methodSpecBuilder.addStatement(statement)
   }
 
+  fun statement(format : String, vararg args : Any){
+    methodSpecBuilder.addStatement(format, *args)
+  }
+
 }

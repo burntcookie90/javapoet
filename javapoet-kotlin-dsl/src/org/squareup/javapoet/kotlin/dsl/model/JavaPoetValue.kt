@@ -3,9 +3,13 @@ package org.squareup.javapoet.kotlin.dsl.model
 import com.squareup.javapoet.TypeName
 import javax.lang.model.element.Modifier
 
-data class JavaPoetValue(val modifiers : Set<Modifier>,
-                         val type : TypeName,
-                         val name : String,
-                         val value : Any? = null) {
+class JavaPoetValue(val modifiers : Set<Modifier>,
+                    val type : TypeName,
+                    val name : String,
+                    val value : Any? = null) {
+  constructor(modifier : Modifier, type : TypeName, name : String, value : Any? = null)
+  : this(setOf(modifier), type, name, value) {
+  }
+
   var javaDoc : String? = null
 }

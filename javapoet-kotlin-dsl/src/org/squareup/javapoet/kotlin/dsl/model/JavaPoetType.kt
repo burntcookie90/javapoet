@@ -10,6 +10,12 @@ class JavaPoetType(val modifiers : Set<Modifier>,
   val fields = arrayListOf<JavaPoetValue>()
   var javaDoc : String? = null
 
+  fun field(modifier : Modifier = Modifier.DEFAULT,
+            type : TypeName,
+            name : String,
+            value : Any? = null,
+            init : JavaPoetValue.() -> Unit = {})
+          = field(setOf(modifier), type, name, value, init)
   fun field(modifiers : Set<Modifier> = setOf(Modifier.DEFAULT),
             type : TypeName,
             name : String,
@@ -21,6 +27,11 @@ class JavaPoetType(val modifiers : Set<Modifier>,
     fields.add(jPValue)
   }
 
+  fun constructor(modifier : Modifier = Modifier.DEFAULT,
+                  parameters : Set<JavaPoetValue> = emptySet(),
+                  init : JavaPoetConstructor.() -> Unit = {})
+          = constructor(setOf(modifier), parameters, init)
+
   fun constructor(modifiers : Set<Modifier> = setOf(Modifier.DEFAULT),
                   parameters : Set<JavaPoetValue> = emptySet(),
                   init : JavaPoetConstructor.() -> Unit = {}) {
@@ -29,6 +40,12 @@ class JavaPoetType(val modifiers : Set<Modifier>,
     constructors.add(constructor)
   }
 
+  fun method(modifier : Modifier = Modifier.DEFAULT,
+             returns : TypeName = TypeName.VOID,
+             name : String,
+             parameters : Set<JavaPoetValue> = emptySet(),
+             init : JavaPoetMethod.() -> Unit)
+          = method(setOf(modifier), returns, name, parameters, init)
   fun method(modifiers : Set<Modifier> = setOf(Modifier.DEFAULT),
              returns : TypeName = TypeName.VOID,
              name : String,

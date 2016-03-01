@@ -3,6 +3,7 @@ package org.squareup.javapoet.kotlin.dsl.model
 import com.squareup.javapoet.MethodSpec
 import com.squareup.javapoet.ParameterSpec
 import com.squareup.javapoet.TypeName
+import java.lang.reflect.Type
 import javax.lang.model.element.Modifier
 
 class JavaPoetMethod(val name : String,
@@ -26,6 +27,10 @@ class JavaPoetMethod(val name : String,
 
   fun statement(statement : String) {
     methodSpecBuilder.addStatement(statement)
+  }
+
+  fun statement(format : String, vararg args : Any){
+    methodSpecBuilder.addStatement(format, *args)
   }
 
   fun controlFlow(init : JavaPoetControlFlow.() -> Unit) {

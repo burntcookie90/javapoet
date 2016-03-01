@@ -1,23 +1,42 @@
 package org.squareup.javapoet.kotlin.dsl
 
+import com.squareup.javapoet.ClassName
+import com.squareup.javapoet.JavaFile
 import com.squareup.javapoet.TypeName.*
 import org.squareup.javapoet.kotlin.dsl.model.JavaPoetValue
+import java.util.*
 import javax.lang.model.element.Modifier.*
 
 fun main(args : Array<String>) {
-  println(classType(setOf(PUBLIC), "TestDsl") {
+  val classType = classType(setOf(PUBLIC), "TestDsl") {
     javaDoc = "This is a test class for the kotlin javapoet DSL\n"
 
     field(setOf(PROTECTED, FINAL), BOOLEAN, "isProtected", true) {
       javaDoc = "this is a protected final field\n"
     }
-    field(setOf(PRIVATE), BOOLEAN, "isPrivate")
+    field(PRIVATE, BOOLEAN, "isPrivate")
 
-    constructor(setOf(PUBLIC)) //no init block gives default empty constructor
+    constructor(PUBLIC) //no init block gives default empty constructor
 
-    constructor(setOf(PUBLIC), setOf(JavaPoetValue(setOf(FINAL), BOOLEAN, "isPrivate"))) {
+    constructor(PUBLIC, setOf(JavaPoetValue(FINAL, BOOLEAN, "isPrivate"))) {
       javaDoc = "constructor that takes a parameter and sets the corresponding field\n"
       statement("this.isPrivate = isPrivate")
+    }
+
+    method(PRIVATE, VOID, "testTypes"){
+      val dateClass = Date::class.java.getClassName()
+      val stringClass = String::class.java.getClassName()
+      statement("final \$T date = new \$T()", dateClass, dateClass)
+      statement("final \$T testString = \$S", stringClass, "test")
+    }
+
+    method(PRIVATE, VOID, "returnsVoid"){
+      controlFlow {
+        begin("for (int i = 0; i < 10; i++)"){
+          statement("println(\"test\")")
+        }
+        end()
+      }
     }
 
     method(setOf(PRIVATE, FINAL), INT, "returnsInteger") {
@@ -36,7 +55,7 @@ fun main(args : Array<String>) {
       }
     }
 
-    method(setOf(PUBLIC), BOOLEAN, "complexControlFlow", setOf(JavaPoetValue(setOf(FINAL), INT, "in"))) {
+    method(PUBLIC, BOOLEAN, "complexControlFlow", setOf(JavaPoetValue(FINAL, INT, "in"))) {
       javaDoc = "This method shows arbitrary complex control flow\n"
       controlFlow {
         begin("if(in > 0)") {
@@ -59,6 +78,9 @@ fun main(args : Array<String>) {
         end()
       }
     }
-  }.toString())
+  }
+
+  val javaFile = JavaFile.builder("com.example", classType).build()
+  javaFile.writeTo(System.out)
 }
 
