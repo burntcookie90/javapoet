@@ -8,7 +8,8 @@ import java.util.*
 import javax.lang.model.element.Modifier.*
 
 fun main(args : Array<String>) {
-  val classType = classType(setOf(PUBLIC), "TestDsl") {
+
+  JavaFile.builder("com.example", classType(setOf(PUBLIC), "TestDsl") {
     javaDoc = "This is a test class for the kotlin javapoet DSL\n"
 
     field(setOf(PROTECTED, FINAL), BOOLEAN, "isProtected", true) {
@@ -78,9 +79,6 @@ fun main(args : Array<String>) {
         end()
       }
     }
-  }
-
-  val javaFile = JavaFile.builder("com.example", classType).build()
-  javaFile.writeTo(System.out)
+  }).build().writeTo(System.out)
 }
 
